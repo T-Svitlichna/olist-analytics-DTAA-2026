@@ -51,4 +51,19 @@ JOIN olist_customers_dataset cu USING (customer_id)
 WHERE o.order_status = 'delivered'
 GROUP BY cu.customer_state
 ORDER BY revenue DESC;
+--------------------------------------------------------------------------------------------------
+-- 5 AVG Rating
 
+SELECT t.product_category_1 as category_EN, 
+round(avg(r.review_score),2) as AVG_score, 
+round(sum(oi.price) ,2) as total,
+COUNT(*) AS reviews
+FROM olist_order_items_dataset AS oi
+JOIN olist_orders_dataset AS o USING(order_id)
+JOIN olist_products_dataset AS p USING(product_id)
+LEFT JOIN product_category_name_translation AS t USING(product_category)
+LEFT JOIN olist_order_reviews_dataset AS r USING(order_id)
+WHERE o.order_status = 'delivered'
+group by category_EN
+HAVING reviews > 50
+ORDER BY AVG_score DESC
