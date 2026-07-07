@@ -38,3 +38,17 @@ group by category_EN
 ORDER BY total DESC
 LIMIT 10;
 
+---------------------------------------------------------------------------------------------------
+-- 4 state-total
+
+SELECT
+	cu.customer_state,
+    ROUND(SUM(oi.price), 2) AS revenue,
+    COUNT(DISTINCT o.order_id) AS orders
+FROM olist_order_items_dataset oi
+JOIN olist_orders_dataset o USING (order_id)
+JOIN olist_customers_dataset cu USING (customer_id)
+WHERE o.order_status = 'delivered'
+GROUP BY cu.customer_state
+ORDER BY revenue DESC;
+
