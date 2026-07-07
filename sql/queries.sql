@@ -16,3 +16,14 @@ left join product_category_name_translation as t USING(product_category)
 left join olist_order_payments_dataset as op using(order_id)
 left join olist_order_reviews_dataset as r USING (order_id)
 WHERE o.order_status = 'delivered';
+
+--2 Month orders count/sum price
+select 
+strftime('%Y-%m', o.order_purchase_t) as ym, count(DISTINCT o.order_id), 
+round(sum(oi.price),2) as orders
+from olist_orders_dataset as o 
+JOIN olist_order_items_dataset as oi USING (order_id)
+WHERE o.order_status = 'delivered'
+group by ym
+order by ym;
+
