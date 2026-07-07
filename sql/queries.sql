@@ -1,3 +1,4 @@
+-- Main Dataset with contecst delivereds orders
 select o.order_id,
  	   o.order_purchase_t,
        strftime('%Y-%m', o.order_purchase_t) as ym,
