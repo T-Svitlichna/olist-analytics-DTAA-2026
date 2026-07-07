@@ -67,3 +67,11 @@ WHERE o.order_status = 'delivered'
 group by category_EN
 HAVING reviews > 50
 ORDER BY AVG_score DESC
+-- 6 AVG delivered
+SELECT round(avg(julianday(order_delivered_6) - julianday(order_purchase_t)),1) as avg_date
+FROM olist_orders_dataset
+WHERE order_status = 'delivered'
+-- 7 payment_type
+SELECT payment_type, COUNT(order_id)as count_orders, round(sum(payment_value),2) total_value  from olist_order_payments_dataset
+GROUP by payment_type
+order by count_orders DESC
